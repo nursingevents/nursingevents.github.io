@@ -88,13 +88,17 @@
                     <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl shadow-lg text-center flex flex-col items-center">
                         <span class="text-3xl mb-1">🗓️</span>
                         <h3 class="text-xs font-semibold text-gray-300">Deadline</h3>
-                        <p class="text-sm font-bold text-white">Dec 15, 2024</p>
+                        <p class="text-sm font-bold text-white">Dec 15, 2025</p>
                     </div>
                     <!-- Info Card: Venue -->
                     <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl shadow-lg text-center flex flex-col items-center">
                         <span class="text-3xl mb-1">📍</span>
                         <h3 class="text-xs font-semibold text-gray-300">Final Venue</h3>
-                        <p class="text-sm font-bold text-white">KMC College</p>
+                        <p class="text-sm font-bold text-white text-xs leading-tight mt-1">
+                            KMC College of Nursing<br>
+                            Navalurkottapattu, Trichy,<br>
+                            Tamil Nadu 620027
+                        </p>
                     </div>
                     <!-- Info Card: Prize Pool -->
                     <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl shadow-lg text-center flex flex-col items-center">
@@ -174,7 +178,7 @@
                         <div class="flex-1 bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
                             <div class="flex justify-between items-center">
                                 <h3 class="text-lg font-semibold text-white">Registration Closes</h3>
-                                <span class="text-sm font-medium text-gray-400">Dec 15, 2024</span>
+                                <span class="text-sm font-medium text-gray-400">Dec 15, 2025</span>
                             </div>
                             <p class="mt-2 text-gray-300">⏰ Last date to submit your team registration. Don't miss out!</p>
                         </div>
