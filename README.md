@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse Hackathon 2025</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- 
+      REMOVED: Lucide Icons CDN
+      We will use emojis for better performance and to fix visibility bugs.
+    -->
+
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Tailwind gray-900 */
+            color: #f3f4f6; /* Tailwind gray-100 */
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+        
+        /* Hide sections by default */
+        .page-section {
+            display: none;
+        }
+
+        /* Show the default active page */
+        #page-home {
+            display: block;
+        }
+
+        /* Accordion content hidden by default */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        /* Accordion icon rotation */
+        .accordion-button.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Active state for bottom nav */
+        .nav-button-active {
+            color: #818cf8; /* Tailwind indigo-400 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Main Content -->
+    <!-- Added padding-bottom to avoid overlap with fixed nav -->
+    <main class="pb-24">
+        
+        <!-- Home/About Section -->
+        <section id="page-home" class="page-section">
+            <div class="p-4 sm:p-6 lg:p-8">
+                <!-- Hero Gradient Card -->
+                <div class="bg-gradient-to-br from-indigo-700 to-purple-800 rounded-2xl shadow-2xl p-6 text-center text-white">
+                    <span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                        The Tamil Nadu Nurses and Midwives Council
+                    </span>
+                    <div class="flex justify-center items-center gap-3 mt-4">
+                         <span class="text-4xl">🩺</span>
+                         <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
+                            Nurse Hackathon 2025
+                        </h1>
+                    </div>
+                    <p class="mt-2 text-xl md:text-2xl font-semibold text-white/80">
+                        💡 Innovate • 🚀 Implement • ✨ Impact
+                    </p>
+                    <p class="mt-4 max-w-2xl mx-auto text-md text-white/70">
+                        Empowering Student Nurses / Nurses as Innovators in Healthcare
+                    </p>
+                </div>
+
+                <div class="mt-8 max-w-5xl mx-auto grid grid-cols-3 gap-3 md:gap-6">
+                    <!-- Info Card: Deadline -->
+                    <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <span class="text-3xl mb-1">🗓️</span>
+                        <h3 class="text-xs font-semibold text-gray-300">Deadline</h3>
+                        <p class="text-sm font-bold text-white">Dec 15, 2024</p>
+                    </div>
+                    <!-- Info Card: Venue -->
+                    <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <span class="text-3xl mb-1">📍</span>
+                        <h3 class="text-xs font-semibold text-gray-300">Final Venue</h3>
+                        <p class="text-sm font-bold text-white">KMC College</p>
+                    </div>
+                    <!-- Info Card: Prize Pool -->
+                    <div class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl shadow-lg text-center flex flex-col items-center">
+                        <span class="text-3xl mb-1">🏆</span>
+                        <h3 class="text-xs font-semibold text-gray-300">Prize Pool</h3>
+                        <p class="text-sm font-bold text-white">₹60,000</p>
+                    </div>
+                </div>
+
+                <!-- 
+                  NEW: Home Page Dashboard Section
+                  This dynamically populates with cards linking to other sections.
+                -->
+                <div class="mt-10">
+                    <h2 class="text-2xl font-bold text-white mb-4">Explore the Hackathon</h2>
+                    <!-- Dashboard Grid -->
+                    <div id="home-dashboard-grid" class="grid grid-cols-2 gap-4">
+                        <!-- 
+                          Static Cards: These link to main pages.
+                        -->
+                        <a href="#" onclick="showPage('timeline', document.getElementById('nav-btn-timeline'))" class="bg-gray-800 p-4 rounded-xl shadow-lg flex flex-col justify-between hover:bg-gray-700 transition-all">
+                            <div>
+                                <span class="text-2xl">🗓️</span>
+                                <h3 class="text-lg font-semibold text-white mt-2">Timeline</h3>
+                            </div>
+                            <p class="text-sm text-gray-400 mt-1">Key Dates & Deadlines</p>
+                        </a>
+                        <a href="#" onclick="showPage('prizes', document.getElementById('nav-btn-prizes'))" class="bg-gray-800 p-4 rounded-xl shadow-lg flex flex-col justify-between hover:bg-gray-700 transition-all">
+                            <div>
+                                <span class="text-2xl">🏅</span>
+                                <h3 class="text-lg font-semibold text-white mt-2">Prizes</h3>
+                            </div>
+                            <p class="text-sm text-gray-400 mt-1">View the ₹60,000 Pool</p>
+                        </a>
+                        <!-- 
+                          Dynamic Problem Cards will be injected here by JS.
+                          Example:
+                          <a href="#" onclick="showPageAndFilter('problems', 'Patient Safety')" class="bg-red-900/30 border border-red-700 p-4 rounded-xl ...">
+                              <div>
+                                  <span class="text-2xl">🛡️</span>
+                                  <h3 class="text-lg font-semibold text-red-300 mt-2">Patient Safety</h3>
+                              </div>
+                              <p class="text-sm text-red-400 mt-1">2 Problems</p>
+                          </a>
+                        -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="page-timeline" class="page-section">
+            <div class="p-4 sm:p-6 lg:p-8">
+                <h2 class="text-3xl font-extrabold text-center text-white">Event Timeline 🗓️</h2>
+                <p class="mt-2 text-lg text-center text-gray-400">Mark your calendars! Here's the journey.</p>
+                
+                <div class="mt-8 space-y-6">
+                    <!-- Timeline Item 1 -->
+                    <div class="flex gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-2xl">🎉</span>
+                        </div>
+                        <div class="flex-1 bg-gradient-to-br from-gray-700 via-gray-800 to-gray-700 p-5 rounded-lg shadow-lg border border-gray-600">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-white">Registration Opens</h3>
+                                <span class="inline-block bg-green-500/20 text-green-300 text-xs font-semibold px-3 py-1 rounded-full">Now Open</span>
+                            </div>
+                            <p class="mt-2 text-gray-300">📝 Form your team and register online to secure your spot.</p>
+                        </div>
+                    </div>
+                    <!-- Timeline Item 2 -->
+                    <div class="flex gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-2xl">⛔</span>
+                        </div>
+                        <div class="flex-1 bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-white">Registration Closes</h3>
+                                <span class="text-sm font-medium text-gray-400">Dec 15, 2024</span>
+                            </div>
+                            <p class="mt-2 text-gray-300">⏰ Last date to submit your team registration. Don't miss out!</p>
+                        </div>
+                    </div>
+                    <!-- Timeline Item 3 -->
+                    <div class="flex gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-2xl">💻</span>
+                        </div>
+                        <div class="flex-1 bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-white">Prelims Round</h3>
+                                <span class="text-sm font-medium text-gray-400">Dec 3rd Week</span>
+                            </div>
+                            <p class="mt-2 text-gray-300">Online evaluation of submissions. This round will be conducted virtually.</p>
+                        </div>
+                    </div>
+                    <!-- Timeline Item 4 -->
+                    <div class="flex gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-2xl">🏆</span>
+                        </div>
+                        <div class="flex-1 bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-white">Finals (In-person)</h3>
+                                <span class="text-sm font-medium text-gray-400">Jan 3rd Week</span>
+                            </div>
+                            <p class="mt-2 text-gray-300">In-person finals at KMC College of Nursing, Trichy.</p>
+                            <div class="mt-3 flex items-center gap-2 text-gray-400">
+                                <span class="text-lg">📍</span>
+                                <span class="text-sm">Navalurkottapattu, Trichy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Statements Section -->
+        <section id="page-problems" class="page-section">
+            <div class="p-4 sm:p-6 lg:p-8">
+                <h2 class="text-3xl font-extrabold text-center text-white">Problem Statements 🎯</h2>
+                <p class="mt-2 text-lg text-center text-gray-400">Choose your challenge.</p>
+
+                <!-- Filters -->
+                <div id="problem-filters" class="mt-6 flex flex-wrap justify-center gap-2">
+                    <button class="filter-btn active bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-1.5 rounded-full text-sm font-medium" onclick="filterProblems('all', this)">🌐 All</button>
+                    <!-- Other filters will be added dynamically -->
+                </div>
+
+                <!-- Accordion Container -->
+                <div id="problem-accordion-container" class="mt-6 space-y-3">
+                    <!-- Problems will be injected here by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Prizes Section -->
+        <section id="page-prizes" class="page-section">
+            <div class="p-4 sm:p-6 lg:p-8">
+                <h2 class="text-3xl font-extrabold text-center text-white">Prizes & Awards 🏅</h2>
+                <p class="mt-2 text-lg text-center text-gray-400">A total prize pool of ₹60,000 awaits.</p>
+                
+                <div class="mt-8 grid grid-cols-1 gap-6">
+                    <!-- 1st Prize -->
+                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-6 rounded-xl shadow-2xl text-center flex flex-col items-center text-white">
+                        <span class="text-6xl">🏆</span>
+                        <h3 class="mt-3 text-2xl font-bold">1st Prize</h3>
+                        <p class="mt-1 text-4xl font-extrabold">₹30,000</p>
+                    </div>
+                    <!-- 2nd Prize -->
+                    <div class="bg-gradient-to-br from-gray-400 to-gray-600 p-6 rounded-xl shadow-2xl text-center flex flex-col items-center text-white">
+                        <span class="text-6xl">🥈</span>
+                        <h3 class="mt-3 text-2xl font-bold">2nd Prize</h3>
+                        <p class="mt-1 text-4xl font-extrabold">₹20,000</p>
+                    </div>
+                    <!-- 3rd Prize -->
+                    <div class="bg-gradient-to-br from-orange-500 to-red-600 p-6 rounded-xl shadow-2xl text-center flex flex-col items-center text-white">
+                        <span class="text-6xl">🥉</span>
+                        <h3 class="mt-3 text-2xl font-bold">3rd Prize</h3>
+                        <p class="mt-1 text-4xl font-extrabold">₹10,000</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Judging Section -->
+        <section id="page-judging" class="page-section">
+            <div class="p-4 sm:p-6 lg:p-8">
+                <div class="pb-10">
+                    <h2 class="text-3xl font-extrabold text-center text-white">Judging Criteria ⚖️</h2>
+                    <p class="mt-2 text-lg text-center text-gray-400">Totaling 100%.</p>
+                    
+                    <div class="mt-8 grid grid-cols-2 gap-3">
+                        <div class="bg-gray-800 p-4 rounded-lg shadow-lg text-center flex flex-col items-center justify-center">
+                            <span class="text-3xl mb-2">🤔</span>
+                            <h3 class="font-semibold text-white">Problem Statement</h3>
+                            <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mt-1">20%</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg shadow-lg text-center flex flex-col items-center justify-center">
+                            <span class="text-3xl mb-2">💡</span>
+                            <h3 class="font-semibold text-white">Innovation</h3>
+                            <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mt-1">20%</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg shadow-lg text-center flex flex-col items-center justify-center">
+                            <span class="text-3xl mb-2">🛠️</span>
+                            <h3 class="font-semibold text-white">Feasibility</h3>
+                            <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mt-1">20%</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg shadow-lg text-center flex flex-col items-center justify-center">
+                            <span class="text-3xl mb-2">📈</span>
+                            <h3 class="font-semibold text-white">Clinical Impact</h3>
+                            <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mt-1">20%</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg shadow-lg text-center col-span-2 flex flex-col items-center justify-center">
+                            <span class="text-3xl mb-2">🎤</span>
+                            <h3 class="font-semibold text-white">Communication</h3>
+                            <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mt-1">20%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pt-10 border-t border-gray-700">
+                    <h2 class="text-3xl font-extrabold text-center text-white">Submission 📄</h2>
+                    <p class="mt-2 text-lg text-center text-gray-400">Minimum requirements.</p>
+                    
+                    <div class="mt-8 max-w-2xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="text-2xl mt-1">✅</span>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-white">One-page problem summary.</h3>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-2xl mt-1">✅</span>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-white">5-7 slide pitch deck.</h3>
+                                    <p class="text-gray-400 text-sm">Must include: Title, Problem, Solution, USP, Competitors, Business Model, Team.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="page-register" class="page-section">
+            <!-- Responsive wrapper -->
+            <div style="position:relative;padding-top:56.25%; /* 16:9 ratio — change as needed */ height:0; overflow:hidden;">
+              <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeA_ZU0mp4wrwk4V3RRIBj43wToNkiiX_EMxg5JXWUBMGN-yw/viewform?embedded=true"
+                      style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+                      allowfullscreen
+                      loading="lazy">
+              </iframe>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- 
+      NEW BOTTOM NAVIGATION BAR
+      Replaces the old header for a mobile-app-like feel.
+    -->
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-800 border-t border-gray-700 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-6 gap-1">
+            <button id="nav-btn-home" onclick="showPage('home', this)" type="button" class="nav-button-active flex flex-col items-center justify-center p-3 text-indigo-400 hover:bg-gray-700 group">
+                <span class="text-xl">🏠</span>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            <button id="nav-btn-timeline" onclick="showPage('timeline', this)" type="button" class="flex flex-col items-center justify-center p-3 text-gray-400 hover:bg-gray-700 group">
+                <span class="text-xl">🗓️</span>
+                <span class="text-xs font-medium">Timeline</span>
+            </button>
+            <button id="nav-btn-problems" onclick="showPage('problems', this)" type="button" class="flex flex-col items-center justify-center p-3 text-gray-400 hover:bg-gray-700 group">
+                <span class="text-xl">🎯</span>
+                <span class="text-xs font-medium">Problems</span>
+            </button>
+            <button id="nav-btn-prizes" onclick="showPage('prizes', this)" type="button" class="flex flex-col items-center justify-center p-3 text-gray-400 hover:bg-gray-700 group">
+                <span class="text-xl">🏆</span>
+                <span class="text-xs font-medium">Prizes</span>
+            </button>
+            <button id="nav-btn-judging" onclick="showPage('judging', this)" type="button" class="flex flex-col items-center justify-center p-3 text-gray-400 hover:bg-gray-700 group">
+                <span class="text-xl">⚖️</span>
+                <span class="text-xs font-medium">Judging</span>
+            </button>
+            <button id="nav-btn-register" onclick="showPage('register', this)" type="button" class="flex flex-col items-center justify-center p-3 text-gray-400 hover:bg-gray-700 group">
+                <span class="text-xl">📝</span>
+                <span class="text-xs font-medium">Register</span>
+            </button>
+        </div>
+    </nav>
+
+    <footer class="bg-gray-900 text-gray-600 pt-4 pb-28 text-center text-xs">
+         <p>&copy;studentnursesapp</p>
+    </footer>
+
+
+    <script>
+        // --- DATA ---
+
+        const problemStatements = [
+            { id: 1, title: "Medication Safety (Medication Error)", category: "Patient Safety", problem: "Medication administration errors (wrong drug, dose, time or route) remain common due to interruptions, complex calculations, unclear labelling, and poor handover.", challenge: "Create a nurse-centered solution that reduces medication administration errors at point-of-care (ward/bedside)." },
+            { id: 2, title: "Fall Prevention", category: "Patient Safety", problem: "Inpatient falls especially among older and post-op patients-cause injuries and longer hospital stays; current methods rely mostly on manual observation.", challenge: "Design a smart, scalable system that predicts/prevents patient falls and supports bedside nursing workflows." },
+            { id: 3, title: "Fluid Management", category: "Clinical Care", problem: "Manual fluid balance calculations (esp. pediatrics, geriatrics, critical care) are time-consuming and error-prone.", challenge: "Build a tool or process that automates accurate input/output tracking and supports clinical decision-making for fluid therapy." },
+            { id: 4, title: "Equipment & Instrument Handling", category: "Operations", problem: "Poor tracking, delayed availability, misplacement and incorrect use of instruments delay care and raise infection risk.", challenge: "Create a system for real-time tracking, standardized handling, and quick access to clinical instruments for nursing teams." },
+            { id: 5, title: "Remote Home Patient Monitoring", category: "Telehealth", problem: "Caregivers and nurses struggle to monitor home patients reliably, causing missed alerts and delayed interventions.", challenge: "Design a remote monitoring solution that supports caregivers and enables timely nurse interventions while minimizing alarm fatigue." },
+            { id: 6, title: "Digital Health Literacy & Patient Education", category: "Education", problem: "Patient education is often minimal and paper-based, hindering continuity of care and health literacy after discharge.", challenge: "Develop an accessible digital education system (multilingual, multimedia) that nurses can deliver and track for continuity." },
+            { id: 7, title: "Home Fetal Monitoring", category: "Maternal Health", problem: "Limited home fetal monitoring options can delay detection of fetal distress; current approaches are inaccessible or require clinical settings.", challenge: "Design a safe, nurse-supervised home fetal-monitoring solution for low-risk pregnancies that supports early detection and escalation." },
+            { id: 8, title: "Safe Hot Fomentation", category: "Therapy", problem: "Traditional hot fomentation methods vary in temperature control, risking burns or inadequate therapy.", challenge: "Create a safe, temperature-controlled fomentation device or protocol suitable for home use." },
+            { id: 9, title: "Hygienic Steam Inhalation", category: "Therapy", problem: "Manual steam inhalation is often unhygienic and unsafe for children and older adults.", challenge: "Design a hygienic, user-safe steam inhalation solution tailored for pediatric and geriatric populations." },
+            { id: 10, title: "Smart Urine Bag Management", category: "Clinical Care", problem: "Manual urine-output recording risks missed measurements, backflow and infection, and is cumbersome during patient transport/ambulation.", challenge: "Build a smart urine-monitoring/management solution that automates output measurement and prevents backflow/infection." },
+            { id: 11, title: "Vaccination Tracking", category: "Public Health", problem: "Lost or forgotten vaccination records lead to missed or delayed immunizations across children and adult populations.", challenge: "Develop a low-friction vaccination tracking tool for families and primary-care nurses to improve coverage and timely reminders." },
+            { id: 12, title: "Weight Monitoring for Bedridden Patients", category: "Clinical Care", problem: "Inability to accurately weigh bedridden patients results in poor dosing, fluid calculation errors, and suboptimal nutrition assessment.", challenge: "Create an accurate, safe method for regular weight monitoring of bedridden or critical patients." },
+            { id: 13, title: "Sterile Dressing Kit Innovation", category: "Infection Control", problem: "Current wound dressing kits are bulky, non-standardized, and can cause material waste or cross-contamination.", challenge: "Design an ergonomic, standardized dressing kit that reduces contamination risk and improves dressing efficiency." },
+            { id: 14, title: "Lactation Support", category: "Maternal Health", problem: "Many new mothers struggle with breastfeeding after discharge due to poor positioning, limited guidance and lack of continuous support.", challenge: "Build a scalable lactation-support tool/service that helps mothers post-discharge and enables timely nurse/lactation consultant input." },
+            { id: 15, title: "Maternal Assistance Technology (MAT) Device", category: "Maternal Health", problem: "Pregnant women in low-resource or rural settings lack continuous, affordable monitoring for vital maternal parameters (HB, BP, fetal movement and contractions).", challenge: "Create an affordable, easy-to-use MAT prototype and nurse-driven monitoring pathway appropriate for community health settings." },
+            { id: 16, title: "Gynaecology & Obstetric Examination Enhancements (Speculum)", category: "Clinical Tools", problem: "Current speculum designs can hinder visualization and rely on external lighting, complicating examinations and teaching.", challenge: "Design an improved speculum or adjunct that enhances visualization, integrates lighting, and supports nursing/clinical teaching." }
+        ];
+
+        const categories = [...new Set(problemStatements.map(p => p.category))];
+        
+        // NEW: Added emojis and border colors for the new UI
+        const categoryDetails = {
+            "Patient Safety":     { emoji: "🛡️", color: "red",     border: "border-red-700",      bg: "bg-red-900/30",      text: "text-red-300",      subtext: "text-red-400" },
+            "Clinical Care":      { emoji: "💙", color: "blue",    border: "border-blue-700",     bg: "bg-blue-900/30",     text: "text-blue-300",     subtext: "text-blue-400" },
+            "Operations":         { emoji: "⚙️", color: "indigo",  border: "border-indigo-700",   bg: "bg-indigo-900/30",   text: "text-indigo-300",   subtext: "text-indigo-400" },
+            "Telehealth":         { emoji: "📡", color: "purple",  border: "border-purple-700",   bg: "bg-purple-900/30",   text: "text-purple-300",   subtext: "text-purple-400" },
+            "Education":          { emoji: "📚", color: "pink",    border: "border-pink-700",     bg: "bg-pink-900/30",     text: "text-pink-300",     subtext: "text-pink-400" },
+            "Maternal Health":    { emoji: "🤰", color: "rose",    border: "border-rose-700",     bg: "bg-rose-900/30",     text: "text-rose-300",     subtext: "text-rose-400" },
+            "Therapy":            { emoji: "🩹", color: "green",   border: "border-green-700",    bg: "bg-green-900/30",    text: "text-green-300",    subtext: "text-green-400" },
+            "Public Health":      { emoji: "🌍", color: "cyan",    border: "border-cyan-700",     bg: "bg-cyan-900/30",     text: "text-cyan-300",     subtext: "text-cyan-400" },
+            "Infection Control":  { emoji: "🧼", color: "orange",  border: "border-orange-700",   bg: "bg-orange-900/30",   text: "text-orange-300",   subtext: "text-orange-400" },
+            "Clinical Tools":     { emoji: "🔬", color: "sky",     border: "border-sky-700",      bg: "bg-sky-900/30",      text: "text-sky-300",      subtext: "text-sky-400" },
+            "Default":            { emoji: "🔹", color: "gray",    border: "border-gray-700",     bg: "bg-gray-900/30",     text: "text-gray-300",     subtext: "text-gray-400" }
+        };
+
+        // --- CORE APP LOGIC ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHomeDashboard();
+            loadProblems();
+            loadProblemFilters();
+            // loadProblemDropdown(); // No longer needed, form is gone
+        });
+
+        // --- PAGE NAVIGATION (Updated for Bottom Nav) ---
+
+        function showPage(pageId, navButtonElement) {
+            // Hide all page sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the target page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+
+            // Deactivate all bottom nav buttons
+            document.querySelectorAll('#bottom-nav button').forEach(btn => {
+                btn.classList.remove('nav-button-active', 'text-indigo-400');
+                btn.classList.add('text-gray-400');
+            });
+
+            // Activate the new one, if it exists
+            if (navButtonElement) {
+                navButtonElement.classList.add('nav-button-active', 'text-indigo-400');
+                navButtonElement.classList.remove('text-gray-400');
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            // Prevent default link behavior
+            if(navButtonElement && event) event.preventDefault();
+        }
+
+        // NEW: Special function to show a page AND apply a filter
+        function showPageAndFilter(pageId, category) {
+            // 1. Show the page
+            const navButton = document.getElementById(`nav-btn-${pageId}`);
+            showPage(pageId, navButton);
+
+            // 2. Find the corresponding filter button and click it
+            const filterButton = Array.from(document.querySelectorAll('.filter-btn'))
+                                      .find(btn => btn.dataset.category === category);
+            
+            if (filterButton) {
+                filterProblems(category, filterButton);
+            }
+        }
+
+        // --- DYNAMIC CONTENT LOADERS ---
+
+        // NEW: Loads the dashboard cards on the home page
+        function loadHomeDashboard() {
+            const container = document.getElementById('home-dashboard-grid');
+            if (!container) return;
+
+            const problemCounts = problemStatements.reduce((acc, problem) => {
+                acc[problem.category] = (acc[problem.category] || 0) + 1;
+                return acc;
+            }, {});
+
+            categories.forEach(category => {
+                const details = categoryDetails[category] || categoryDetails["Default"];
+                const count = problemCounts[category];
+
+                const card = document.createElement('a');
+                card.href = "#";
+                card.className = `p-4 rounded-xl shadow-lg flex flex-col justify-between transition-all border ${details.border} ${details.bg} hover:bg-gray-700`;
+                card.onclick = (e) => {
+                    e.preventDefault();
+                    showPageAndFilter('problems', category);
+                };
+
+                card.innerHTML = `
+                    <div>
+                        <span class="text-2xl">${details.emoji}</span>
+                        <h3 class="text-lg font-semibold ${details.text} mt-2">${category}</h3>
+                    </div>
+                    <p class="text-sm ${details.subtext} mt-1">${count} Problem${count > 1 ? 's' : ''}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function loadProblems() {
+            const container = document.getElementById('problem-accordion-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            problemStatements.forEach(problem => {
+                const details = categoryDetails[problem.category] || categoryDetails["Default"];
+                
+                const element = document.createElement('div');
+                element.className = `problem-item bg-gray-800 rounded-lg shadow-lg overflow-hidden border ${details.border}`;
+                element.setAttribute('data-category', problem.category);
+                
+                // NEW: Attractive "Tab" UI with color border
+                element.innerHTML = `
+                    <button class="accordion-button w-full text-left p-4 pr-12 relative flex justify-between items-center bg-gradient-to-r from-gray-700/50 to-gray-800 hover:bg-gray-700 focus:outline-none" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${details.emoji}</span>
+                            <div>
+                                <span class="font-semibold text-md ${details.text}">${problem.id}. ${problem.title}</span>
+                                <span class="block text-xs ${details.subtext}">${problem.category}</span>
+                            </div>
+                        </div>
+                        <span class="accordion-icon w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 transition-transform duration-200">↕️</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-5 border-t ${details.border}">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">🤔</span>
+                                <h4 class="font-semibold text-indigo-300">Problem:</h4>
+                            </div>
+                            <p class="mt-1 text-gray-300 pl-8">${problem.problem}</p>
+                            
+                            <div class="flex items-center gap-2 mt-4">
+                                <span class="text-xl">🎯</span>
+                                <h4 class="font-semibold text-indigo-300">Challenge:</h4>
+                            </div>
+                            <p class="mt-1 text-gray-300 pl-8">${problem.challenge}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(element);
+            });
+        }
+
+        function loadProblemFilters() {
+            const container = document.getElementById('problem-filters');
+            if (!container) return;
+
+            categories.forEach(category => {
+                const details = categoryDetails[category] || categoryDetails["Default"];
+                const button = document.createElement('button');
+                button.className = 'filter-btn bg-gray-700 text-gray-300 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-gray-600';
+                button.innerHTML = `${details.emoji} ${category}`; // Added emoji
+                button.dataset.category = category; // Added for showPageAndFilter
+                button.onclick = () => filterProblems(category, button);
+                container.appendChild(button);
+            });
+        }
+
+        // --- INTERACTIVITY ---
+
+        function toggleAccordion(buttonElement) {
+            const content = buttonElement.nextElementSibling;
+            buttonElement.classList.toggle('open');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        }
+
+        function filterProblems(category, buttonElement) {
+            const items = document.querySelectorAll('.problem-item');
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gradient-to-r', 'from-indigo-500', 'to-purple-500', 'text-white');
+                btn.classList.add('bg-gray-700', 'text-gray-300');
+            });
+            buttonElement.classList.add('active', 'bg-gradient-to-r', 'from-indigo-500', 'to-purple-500', 'text-white');
+            buttonElement.classList.remove('bg-gray-700', 'text-gray-300');
+        }
+
+    </script>
+</body>
+</html>
